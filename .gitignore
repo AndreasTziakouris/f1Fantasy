@@ -1,0 +1,25 @@
+# Node
+node_modules/
+.env
+.DS_Store
+dist/
+build/
+coverage/
+logs
+*.log
+npm-debug.log*
+
+# OS
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Vite (if using React + Vite)
+.vite/
+
+# VSCode
+.vscode/
+
+# Optional MongoDB dump or backups
+dump/
