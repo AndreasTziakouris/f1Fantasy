@@ -3,13 +3,30 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
+
+const authRoutes = require("./routes/auth.js");
+
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use("/auth", authRoutes);
+
+app.use((error, req, res, next) => {
+  //error middleware
+  console.log(error);
+  const status = error.statusCode || 500;
+  const message = error.message;
+  const data = error.data;
+  res.status(status).json({
+    message: message,
+    data: data,
+  });
+});
+
 mongoose
-  .connect(proccess.env.MONGODB_URI)
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connected to MongoDB");
     app.listen(3000);
