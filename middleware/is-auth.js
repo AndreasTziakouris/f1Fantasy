@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 
-const isAuth = (req, res, next) => {
+exports.isAuth = (req, res, next) => {
   const authHead = req.headers.authorization;
   if (!authHead) {
     const error = new Error("Not authenticated.");
