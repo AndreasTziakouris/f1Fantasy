@@ -9,21 +9,50 @@ const f1FantasyTeamSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
     },
-    driverIds: [
+    fantasyTeamName: {
+      type: String,
+      required: true,
+    },
+    f1Drivers: [
       {
-        required: true,
-        type: Schema.Types.ObjectId,
-        ref: "f1Driver",
+        driverId: {
+          required: true,
+          type: Schema.Types.ObjectId,
+          ref: "f1Driver",
+        },
+        doublePoints: {
+          required: true,
+          type: Boolean,
+        },
       },
     ],
-    teamIds: [
+    f1Teams: [
       {
-        type: Schema.Types.ObjectId,
-        ref: "f1Team",
-        required: true,
+        teamid: {
+          type: Schema.Types.ObjectId,
+          ref: "f1Team",
+          required: true,
+        },
       },
     ],
+    raceHistory: {
+      type: [
+        {
+          raceId: {
+            type: Schema.Types.ObjectId,
+            ref: "f1RaceData",
+          },
+          roundNumber: Number,
+          pointsEarned: Number,
+        },
+      ],
+      default: [],
+    },
     remainingBudget: {
+      type: Number,
+      required: true,
+    },
+    remainingTransfers: {
       type: Number,
       required: true,
     },

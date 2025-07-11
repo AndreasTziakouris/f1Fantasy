@@ -10,6 +10,15 @@ const f1FantasyLeagueSchema = new Schema(
         type: Number,
         required: true,
       },
+      roundsIncluded: [
+        {
+          roundId: {
+            required: true,
+            type: Schema.Types.ObjectId,
+            ref: "f1RaceData",
+          },
+        },
+      ],
     },
     createdByRef: {
       //could be created by admin or user , configure accordingly

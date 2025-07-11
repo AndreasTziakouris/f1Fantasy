@@ -30,6 +30,10 @@ const f1TeamSchema = new Schema(
       type: String,
       required: false,
     },
+    imageUrl: {
+      required: true,
+      type: String,
+    },
   },
   { timestamps: true }
 );

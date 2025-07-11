@@ -12,7 +12,7 @@ const f1RaceData = new Schema(
       type: String,
       required: true,
     },
-    driversPerformance: [
+    f1DriversPerformance: [
       {
         driverId: {
           required: true,
@@ -46,7 +46,7 @@ const f1RaceData = new Schema(
         },
       },
     ],
-    teamPerformance: [
+    f1TeamPerformance: [
       {
         teamId: {
           required: true,

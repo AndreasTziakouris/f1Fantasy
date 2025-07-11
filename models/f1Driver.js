@@ -16,7 +16,7 @@ const f1DriverSchema = new Schema(
       required: true,
       type: String,
     },
-    teamId: {
+    f1TeamId: {
       type: Schema.Types.ObjectId,
       ref: "f1Team",
       required: true,
@@ -24,6 +24,14 @@ const f1DriverSchema = new Schema(
     description: {
       type: String,
       required: false,
+    },
+    imageUrl: {
+      required: true,
+      type: String,
+    },
+    driverCost: {
+      required: true,
+      type: Number,
     },
   },
   { timestamps: true }

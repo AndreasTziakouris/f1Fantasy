@@ -24,10 +24,6 @@ const f1FantasyTeamEntrySchema = new Schema(
       type: Number,
       default: 0,
     },
-    joinedAt: {
-      type: Date,
-      default: Date.now,
-    },
   },
   { timestamps: true }
 );
