@@ -22,5 +22,6 @@ exports.isAuth = (req, res, next) => {
     return next(error);
   }
   req.userId = decodedToken.userId;
+  req.userRole = decodedToken.userRole;
   next();
 };

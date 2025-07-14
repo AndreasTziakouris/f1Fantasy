@@ -24,6 +24,10 @@ const f1FantasyTeamEntrySchema = new Schema(
       type: Number,
       default: 0,
     },
+    rankingInLeague: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );

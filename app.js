@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/auth", authRoutes);
-
+//add /admin to admin fantasyleague routes
 app.use((error, req, res, next) => {
   //error middleware
   console.log(error);

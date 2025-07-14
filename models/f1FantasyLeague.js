@@ -4,6 +4,18 @@ const Schema = mongoose.Schema;
 
 const f1FantasyLeagueSchema = new Schema(
   {
+    leagueType: {
+      type: String, //official, community, etc.
+      required: true,
+    },
+    leagueName: {
+      type: String,
+      required: true,
+    },
+    leagueImageURL: {
+      type: String,
+      required: true,
+    },
     rules: {
       // add other rules
       maxTeams: {
@@ -29,6 +41,7 @@ const f1FantasyLeagueSchema = new Schema(
     entryAmount: {
       type: Number,
       required: true,
+      default: 0,
     },
   },
   { timestamps: true }
