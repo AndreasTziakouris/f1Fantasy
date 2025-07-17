@@ -6,7 +6,7 @@ const f1FantasyTeamEntrySchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: "user",
+      ref: "User",
       required: true,
     },
     fantasyTeamId: {
@@ -20,7 +20,6 @@ const f1FantasyTeamEntrySchema = new Schema(
       required: true,
     },
     totalPoints: {
-      //maybe remove
       type: Number,
       default: 0,
     },
@@ -28,11 +27,12 @@ const f1FantasyTeamEntrySchema = new Schema(
       type: Number,
       required: true,
     },
+    createdAtGP: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model(
-  "f1FantasyTeamEntry",
-  f1FantasyTeamEntriesSchema
-);
+module.exports = mongoose.model("f1FantasyTeamEntry", f1FantasyTeamEntrySchema);

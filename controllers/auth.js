@@ -18,7 +18,7 @@ exports.signup = async (req, res, next) => {
   if (existingUser) {
     const error = new Error("User already exists.");
     error.statusCode = 422;
-    next(error);
+    return next(error);
   }
   try {
     const hashedPassword = await bcrypt.hash(password, 12);

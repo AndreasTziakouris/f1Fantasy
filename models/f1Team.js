@@ -34,6 +34,10 @@ const f1TeamSchema = new Schema(
       required: true,
       type: String,
     },
+    teamCost: {
+      required: true,
+      type: Number,
+    },
   },
   { timestamps: true }
 );

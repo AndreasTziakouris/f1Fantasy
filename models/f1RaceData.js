@@ -32,16 +32,11 @@ const f1RaceData = new Schema(
           required: true,
         },
         points: {
-          //might remove this one, if we do the calculation elsewhere
           type: Number,
           required: true,
         },
         placesFromStartingPosition: {
           type: Number,
-          required: true,
-        },
-        dnf: {
-          type: Boolean,
           required: true,
         },
       },
@@ -67,7 +62,11 @@ const f1RaceData = new Schema(
           },
         ],
         fastestPitStop: {
-          type: Number, //maybe switch to boolean to avoid unnecessary checks
+          type: Boolean, //maybe switch to boolean to avoid unnecessary checks
+          required: true,
+        },
+        overallPoints: {
+          type: Number,
           required: true,
         },
       },

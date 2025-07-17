@@ -5,18 +5,18 @@ const pointsCalculationService = require("../services/pointsCalculation.js");
 
 const router = express.Router();
 
-router.put(
-  "/update-league",
+router.post(
+  "/update-all-league-entries",
   isAuth,
   isAdmin,
-  adminFantasyLeaguesController.updateFantasyLeague
+  pointsCalculationService.updateAllFantasyTeamForRound
 );
 
-router.delete(
-  "/delete-league",
+router.post(
+  "/update-all-fantasy-teams",
   isAuth,
   isAdmin,
-  adminFantasyLeaguesController.deleteFantasyLeague
+  pointsCalculationService.updateAllFantasyTeamForRound
 );
 
 module.exports = router;

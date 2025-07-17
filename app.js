@@ -5,14 +5,25 @@ const cors = require("cors");
 const dotenv = require("dotenv").config();
 
 const authRoutes = require("./routes/auth.js");
+const fantasyLeagueRoutes = require("./routes/fantasyLeagues.js");
+const fantasyTeamRoutes = require("./routes/fantasyTeams.js");
+const adminFantasyLeagueRoutes = require("./routes/adminFantasyLeague.js");
+const adminPointsCalculationRoutes = require("./routes/adminPointsCalculation.js");
+const staticDataInsertionRoutes = require("./routes/staticDataInsertion.js");
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use("/images", express.static("public/images"));
 
 app.use("/auth", authRoutes);
-//add /admin to admin fantasyleague routes
+app.use("/fantasyTeams", fantasyTeamRoutes);
+app.use("/fantasyLeagues", fantasyLeagueRoutes);
+app.use("/admin/fantasyLeagues", adminFantasyLeagueRoutes);
+app.use("/admin", adminPointsCalculationRoutes);
+app.use("/admin", staticDataInsertionRoutes);
+
 app.use((error, req, res, next) => {
   //error middleware
   console.log(error);

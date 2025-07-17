@@ -24,10 +24,14 @@ const f1FantasyLeagueSchema = new Schema(
       },
       roundsIncluded: [
         {
-          roundId: {
+          raceId: {
             required: true,
             type: Schema.Types.ObjectId,
             ref: "f1RaceData",
+          },
+          roundNumber: {
+            type: Number,
+            required: true,
           },
         },
       ],

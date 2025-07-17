@@ -23,8 +23,11 @@ exports.updateFantasyLeague = async (req, res, next) => {
           maxTeams: maxTeams,
           roundsIncluded: roundsIncluded,
         },
-        createdByRef: userId,
+
         //entry amount is default at 0, or if already exists will stay the same
+      },
+      $setOnInsert: {
+        createdByRef: userId,
       },
     };
     const options = {
@@ -38,6 +41,17 @@ exports.updateFantasyLeague = async (req, res, next) => {
       options
     );
     res.status(201).json({ result: result });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteFantasyLeague = async (req, res, next) => {
+  try {
+    const leagueId = req.body.leagueId;
+    const deletedLeague = await fantasyLeagueModel.findByIdAndDelete(leagueId);
+    await fantasyTeamEntriesModel.deleteMany({ leagueId });
+    res.status(200).json({ message: "League and related entries deleted" });
   } catch (err) {
     next(err);
   }

@@ -3,6 +3,8 @@ const fantasyTeamsModel = require("../models/f1FantasyTeam.js");
 const f1DriverModel = require("../models/f1Driver.js");
 const f1TeamModel = require("../models/f1Team.js");
 
+const pointsCalculationService = require("../services/pointsCalculation.js");
+
 exports.getAllFantasyTeams = async (req, res, next) => {
   try {
     const userId = req.userId;
@@ -24,7 +26,6 @@ exports.getFantasyTeam = async (req, res, next) => {
     const fantasyTeamId = req.params.fantasyTeamId;
 
     const fantasyTeam = await fantasyTeamsModel.findOne({
-      //probably gonna have to use populate to return images and stuff
       userId: userId,
       _id: fantasyTeamId,
     });
@@ -42,18 +43,27 @@ exports.updateFantasyTeam = async (req, res, next) => {
   try {
     const userId = req.userId;
     const fantasyTeamId = req.body.fantasyTeamId; //can be undefined
-
+    let isNew = false;
+    if (!fantasyTeamId) {
+      isNew = true;
+    }
     const filter = fantasyTeamId
       ? { _id: fantasyTeamId, userId: userId }
       : { _id: new mongoose.Types.ObjectId(), userId: userId }; //assign new objectId for team id if doesn't exist
 
     const update = {
       $set: {
+        userId: userId,
         f1Drivers: req.body.f1Drivers,
         f1Teams: req.body.f1Teams,
         remainingBudget: req.body.remainingBudget,
         remainingTransfers: req.body.remainingTransfers,
         fantasyTeamName: req.body.teamName,
+      },
+      $setOnInsert: {
+        createdAtGP: parseInt(process.env.LAST_ROUND_COMPLETED),
+        totalPoints: 0,
+        raceHistory: [],
       },
     };
 
@@ -67,8 +77,11 @@ exports.updateFantasyTeam = async (req, res, next) => {
       filter,
       update,
       options
-    ); //could have also just found and saved here
-
+    );
+    if (isNew) {
+      //simulate for new team
+      await pointsCalculationService.simulateTeamPoints(updatedTeam);
+    }
     res.status(200).json(updatedTeam);
   } catch (err) {
     console.log(err);

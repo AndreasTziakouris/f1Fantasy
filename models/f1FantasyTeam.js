@@ -13,6 +13,10 @@ const f1FantasyTeamSchema = new Schema(
       type: String,
       required: true,
     },
+    createdAtGP: {
+      type: Number,
+      required: true,
+    },
     f1Drivers: [
       {
         driverId: {
@@ -28,7 +32,7 @@ const f1FantasyTeamSchema = new Schema(
     ],
     f1Teams: [
       {
-        teamid: {
+        teamId: {
           type: Schema.Types.ObjectId,
           ref: "f1Team",
           required: true,
@@ -36,17 +40,29 @@ const f1FantasyTeamSchema = new Schema(
       },
     ],
     raceHistory: {
+      //possibly keep a mini snapshot of the team that was registered for that grand prix
       type: [
         {
           raceId: {
             type: Schema.Types.ObjectId,
             ref: "f1RaceData",
           },
-          roundNumber: Number,
-          pointsEarned: Number,
+          roundNumber: {
+            type: Number,
+            required: true,
+          },
+          pointsEarned: {
+            type: Number,
+            required: true,
+          },
         },
       ],
       default: [],
+    },
+    totalPoints: {
+      type: Number,
+      required: true,
+      default: 0,
     },
     remainingBudget: {
       type: Number,

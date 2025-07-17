@@ -42,11 +42,11 @@ exports.getLeague = async (req, res, next) => {
       .find({ leagueId: leagueId })
       .sort({ totalPoints: -1 }) // descending
       .populate("fantasyTeamId", "fantasyTeamName") //replaces teamId with name
-      .populate("userId", "name totalpoints"); //replaces userId with some details
+      .populate("userId", "name"); //replaces userId with some details
     const leaderboard = entries.map((entry, index) => ({
       userName: entry.userId.name,
       teamName: entry.fantasyTeamId.fantasyTeamName,
-      totalPoints: entry.userId.totalPoints,
+      totalPoints: entry.totalPoints,
       rankingNumber: index + 1,
     }));
     res.status(200).json({
@@ -114,7 +114,7 @@ exports.joinLeague = async (req, res, next) => {
       rankingInLeague: league.entryAmount + 1,
     });
     await fantasyLeagueModel.findByIdAndUpdate(leagueId, {
-      $inc: { totalEntries: 1 },
+      $inc: { entryAmount: 1 },
     });
     res.status(201).json({ message: "Joined league succesfully" });
   } catch (err) {
