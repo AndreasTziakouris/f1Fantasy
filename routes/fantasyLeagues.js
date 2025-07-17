@@ -5,7 +5,7 @@ const fantasyLeaguesController = require("../controllers/fantasyLeagues.js");
 
 const router = express.Router();
 
-router.get("/allLeagues", isAuth, fantasyLeaguesController.getAllLeagues);
+router.get("/all-leagues", isAuth, fantasyLeaguesController.getAllLeagues);
 
 router.get("/league/:leagueId", isAuth, fantasyLeaguesController.getLeague);
 

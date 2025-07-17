@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 
-exports.isAuth = (req, res, next) => {
+module.exports = (req, res, next) => {
   const authHead = req.headers.authorization;
   if (!authHead) {
-    const error = new Error("Not authenticated.");
+    const error = new Error("user Not authenticated.");
     error.statusCode = 401;
     return next(error);
   }
@@ -17,7 +17,7 @@ exports.isAuth = (req, res, next) => {
     throw err;
   }
   if (!decodedToken) {
-    const error = new Error("Not authenticated.");
+    const error = new Error("user Not authenticated.");
     error.statusCode = 401;
     return next(error);
   }
