@@ -13,7 +13,12 @@ exports.simulateTeamPoints = async (team) => {
     await calculateRoundPoints(team, i);
   }
 };
-
+exports.check = () => {
+  try {
+  } catch (err) {
+    next(err);
+  }
+};
 exports.calculateRoundPoints = async (team, roundNumber) => {
   //gets called from all our different endpoints (example team initialization, after-race leaderboard updates, etc)
   //returns an integer of points for this round, and updates race history in fantasy teams model
