@@ -19,9 +19,18 @@ const f1RaceData = new Schema(
           type: Schema.Types.ObjectId,
           ref: "f1Driver",
         },
+        f1DriverSurname: {
+          required: true,
+          type: String,
+        },
         finishPosition: {
           type: Number,
           required: true,
+        },
+        sprintFinishPosition: {
+          type: Number,
+          required: true,
+          default: 0,
         },
         qualiPosition: {
           type: Number,
@@ -48,6 +57,10 @@ const f1RaceData = new Schema(
           type: Schema.Types.ObjectId,
           ref: "f1Team",
         },
+        teamName: {
+          required: true,
+          type: String,
+        },
         drivers: [
           {
             driverId: {
@@ -62,7 +75,7 @@ const f1RaceData = new Schema(
           },
         ],
         fastestPitStop: {
-          type: Boolean, //maybe switch to boolean to avoid unnecessary checks
+          type: Boolean,
           required: true,
         },
         overallPoints: {
@@ -72,7 +85,7 @@ const f1RaceData = new Schema(
       },
     ],
     safetyCars: {
-      type: Number,
+      type: Boolean,
       required: true,
     },
   },

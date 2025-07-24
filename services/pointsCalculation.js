@@ -9,14 +9,9 @@ const fantasyTeamEntriesModel = require("../models/f1FantasyTeamEntries");
 
 exports.simulateTeamPoints = async (team) => {
   //gets called upon team creation, to simulate all grand prix until that point
-  for (let i = 1; i <= parseInt(process.env.LAST_ROUND_COMPLETED); i++) {
-    await calculateRoundPoints(team, i);
-  }
-};
-exports.check = () => {
-  try {
-  } catch (err) {
-    next(err);
+  console.log("here");
+  for (let i = 1; i <= parseInt(process.env.CURRENT_ROUND_NUMBER); i++) {
+    await exports.calculateRoundPoints(team, i);
   }
 };
 exports.calculateRoundPoints = async (team, roundNumber) => {
@@ -52,13 +47,13 @@ exports.calculateRoundPoints = async (team, roundNumber) => {
     }
 
     //check if already exists and configure accordingly. if it does, we don't want to override,
-    //because we want to keep the data of the fantasy team that was set at that time
+    //because we want to keep the data of the fantasy team that was set at that time. shouldn't happen though
 
     const alreadyExists = team.raceHistory.some((r) => {
       return r.roundNumber === roundNumber;
     });
     if (!alreadyExists) {
-      //shouldn't be a thing
+      //shouldn't not happen
       team.raceHistory.push({
         raceId: raceData._id,
         roundNumber: raceData.roundNumber,
@@ -68,7 +63,9 @@ exports.calculateRoundPoints = async (team, roundNumber) => {
       await team.save();
     }
   } catch (err) {
-    next(err);
+    const error = new Error("Something went wrong");
+    console.log(err);
+    throw error;
   }
   //return pointsScored;    optionally return this
 };
@@ -78,7 +75,7 @@ exports.updateAllFantasyTeamForRound = async (req, res, next) => {
   //updates all fantasy teams for that selected round, according to their current structure
   const allTeams = await fantasyTeamModel.find();
   for (let team of allTeams) {
-    await this.calculateRoundPoints(team, roundNumber);
+    await this.calculateRoundPoints(team, roundNumber); //maybe use .exports.calculateRoundPoints
   }
   res.status(200).json({ message: "Teams updated succesfully" });
 };

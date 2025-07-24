@@ -15,11 +15,15 @@ exports.insertf1DriverData = async (req, res, next) => {
       imageUrl,
       driverCost,
     } = req.body;
+    const validTeamId = f1TeamId
+      ? mongoose.Types.ObjectId.isValid(f1TeamId) &&
+        (await f1TeamModel.exists({ _id: f1TeamId }))
+      : false;
     if (
       !name ||
       !surname ||
       !abbreviation ||
-      !f1TeamId ||
+      !validTeamId ||
       !imageUrl ||
       !driverCost
     ) {

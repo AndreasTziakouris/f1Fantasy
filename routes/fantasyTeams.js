@@ -11,7 +11,7 @@ router.get(
   "/fantasy-team/:fantasyTeamId",
   isAuth,
   fantasyTeamsController.getFantasyTeam
-); //added query params for get team by id
+);
 
 router.put("/fantasy-team", isAuth, fantasyTeamsController.updateFantasyTeam);
 

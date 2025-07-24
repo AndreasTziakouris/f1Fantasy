@@ -58,10 +58,10 @@ exports.updateFantasyTeam = async (req, res, next) => {
         f1Teams: req.body.f1Teams,
         remainingBudget: req.body.remainingBudget,
         remainingTransfers: req.body.remainingTransfers,
-        fantasyTeamName: req.body.teamName,
+        fantasyTeamName: req.body.fantasyTeamName,
       },
       $setOnInsert: {
-        createdAtGP: parseInt(process.env.LAST_ROUND_COMPLETED),
+        createdAtGP: parseInt(process.env.CURRENT_ROUND_NUMBER),
         totalPoints: 0,
         raceHistory: [],
       },
@@ -82,7 +82,7 @@ exports.updateFantasyTeam = async (req, res, next) => {
       //simulate for new team
       await pointsCalculationService.simulateTeamPoints(updatedTeam);
     }
-    res.status(200).json(updatedTeam);
+    res.status(201).json(updatedTeam);
   } catch (err) {
     console.log(err);
     next(err);
