@@ -53,7 +53,6 @@ exports.updateFantasyTeam = async (req, res, next) => {
 
     const update = {
       $set: {
-        userId: userId,
         f1Drivers: req.body.f1Drivers,
         f1Teams: req.body.f1Teams,
         remainingBudget: req.body.remainingBudget,
@@ -64,6 +63,7 @@ exports.updateFantasyTeam = async (req, res, next) => {
         createdAtGP: parseInt(process.env.CURRENT_ROUND_NUMBER),
         totalPoints: 0,
         raceHistory: [],
+        userId: userId,
       },
     };
 

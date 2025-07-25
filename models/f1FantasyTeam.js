@@ -24,6 +24,10 @@ const f1FantasyTeamSchema = new Schema(
           type: Schema.Types.ObjectId,
           ref: "f1Driver",
         },
+        driverSurname: {
+          type: String,
+          required: true,
+        },
         doublePoints: {
           required: true,
           type: Boolean,
@@ -35,6 +39,10 @@ const f1FantasyTeamSchema = new Schema(
         teamId: {
           type: Schema.Types.ObjectId,
           ref: "f1Team",
+          required: true,
+        },
+        teamName: {
+          type: String,
           required: true,
         },
       },

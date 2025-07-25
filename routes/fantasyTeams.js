@@ -5,10 +5,14 @@ const fantasyTeamsController = require("../controllers/fantasyTeams.js");
 
 const router = express.Router();
 
-router.get("/fantasy-teams", isAuth, fantasyTeamsController.getAllFantasyTeams);
+router.get(
+  "/get-fantasy-teams",
+  isAuth,
+  fantasyTeamsController.getAllFantasyTeams
+);
 
 router.get(
-  "/fantasy-team/:fantasyTeamId",
+  "/get-fantasy-team/:fantasyTeamId",
   isAuth,
   fantasyTeamsController.getFantasyTeam
 );
