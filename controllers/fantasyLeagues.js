@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const dotenv = require("dotenv").config();
 const fantasyLeagueModel = require("../models/f1FantasyLeague");
 const fantasyTeamEntriesModel = require("../models/f1FantasyTeamEntries");
 
@@ -43,6 +43,11 @@ exports.getLeague = async (req, res, next) => {
       .sort({ totalPoints: -1 }) // descending
       .populate("fantasyTeamId", "fantasyTeamName") //replaces teamId with name
       .populate("userId", "name"); //replaces userId with some details
+    if (entries.length === 0) {
+      res.status(404).json({
+        message: "league doesnt exist",
+      });
+    }
     const leaderboard = entries.map((entry, index) => ({
       userName: entry.userId.name,
       teamName: entry.fantasyTeamId.fantasyTeamName,
@@ -104,6 +109,7 @@ exports.joinLeague = async (req, res, next) => {
       fantasyTeamId,
       leagueId,
     });
+    //have to check for max teams cap here
     if (alreadyJoined) {
       return res.status(400).json({ message: "Already joined with this team" });
     }
@@ -112,6 +118,7 @@ exports.joinLeague = async (req, res, next) => {
       fantasyTeamId: fantasyTeamId,
       leagueId: leagueId,
       rankingInLeague: league.entryAmount + 1,
+      createdAtGP: process.env.CURRENT_ROUND_NUMBER,
     });
     await fantasyLeagueModel.findByIdAndUpdate(leagueId, {
       $inc: { entryAmount: 1 },

@@ -80,7 +80,7 @@ exports.updateFantasyTeam = async (req, res, next) => {
     );
     if (isNew) {
       //simulate for new team
-      await pointsCalculationService.simulateTeamPoints(updatedTeam);
+      //await pointsCalculationService.simulateTeamPoints(updatedTeam);
     }
     res.status(201).json(updatedTeam);
   } catch (err) {

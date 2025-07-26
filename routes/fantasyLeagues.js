@@ -5,12 +5,12 @@ const fantasyLeaguesController = require("../controllers/fantasyLeagues.js");
 
 const router = express.Router();
 
-router.get("/all-leagues", isAuth, fantasyLeaguesController.getAllLeagues);
+router.get("/get-all-leagues", isAuth, fantasyLeaguesController.getAllLeagues);
 
-router.get("/league/:leagueId", isAuth, fantasyLeaguesController.getLeague);
+router.get("/get-league/:leagueId", isAuth, fantasyLeaguesController.getLeague);
 
 router.get(
-  "/joined-leagues",
+  "/get-joined-leagues",
   isAuth,
   fantasyLeaguesController.getJoinedLeagues
 );

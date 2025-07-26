@@ -9,7 +9,7 @@ router.post(
   "/update-all-league-entries",
   isAuth,
   isAdmin,
-  pointsCalculationService.updateAllFantasyTeamForRound
+  pointsCalculationService.updateAllLeagueEntriesForRound
 );
 
 router.post(
