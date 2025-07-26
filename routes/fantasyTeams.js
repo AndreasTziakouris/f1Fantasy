@@ -17,7 +17,11 @@ router.get(
   fantasyTeamsController.getFantasyTeam
 );
 
-router.put("/fantasy-team", isAuth, fantasyTeamsController.updateFantasyTeam);
+router.put(
+  "/update-fantasy-team",
+  isAuth,
+  fantasyTeamsController.updateFantasyTeam
+);
 
 router.get("/f1drivers", isAuth, fantasyTeamsController.getF1Drivers);
 

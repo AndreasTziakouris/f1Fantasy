@@ -10,9 +10,16 @@ exports.updateFantasyLeague = async (req, res, next) => {
     const leagueImageURL = req.body.leagueImageURL;
     const maxTeams = req.body.maxTeams;
     const roundsIncluded = req.body.roundsIncluded; //array
-    const fantasyLeagueId = req.body.fantasyLeagueId;
-    const filter = fantasyLeagueId
-      ? { _id: fantasyLeagueId }
+    const leagueId = req.body.leagueId; //might be undefined
+    const isNew = leagueId ? false : true;
+    if (isNew) {
+      //console.log("is new");
+    } else {
+      //possibly block someone that is not authorized to edit this league
+      //console.log("is not new");
+    }
+    const filter = leagueId
+      ? { _id: leagueId }
       : { _id: new mongoose.Types.ObjectId() };
     const update = {
       $set: {
@@ -27,7 +34,7 @@ exports.updateFantasyLeague = async (req, res, next) => {
         //entry amount is default at 0, or if already exists will stay the same
       },
       $setOnInsert: {
-        createdByRef: userId,
+        userId: userId,
       },
     };
     const options = {
@@ -51,7 +58,12 @@ exports.deleteFantasyLeague = async (req, res, next) => {
     const leagueId = req.body.leagueId;
     const deletedLeague = await fantasyLeagueModel.findByIdAndDelete(leagueId);
     await fantasyTeamEntriesModel.deleteMany({ leagueId });
-    res.status(200).json({ message: "League and related entries deleted" });
+    res
+      .status(200)
+      .json({
+        message: "League and related entries deleted",
+        deletedLeague: deletedLeague,
+      });
   } catch (err) {
     next(err);
   }

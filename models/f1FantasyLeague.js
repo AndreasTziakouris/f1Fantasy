@@ -36,7 +36,7 @@ const f1FantasyLeagueSchema = new Schema(
         },
       ],
     },
-    createdByRef: {
+    userId: {
       //could be created by admin or user , configure accordingly
       required: true,
       type: Schema.Types.ObjectId,
