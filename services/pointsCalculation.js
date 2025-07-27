@@ -64,9 +64,7 @@ exports.calculateRoundPoints = async (team, roundNumber) => {
       await team.save();
     }
   } catch (err) {
-    const error = new Error("Something went wrong");
-    console.log(err);
-    throw error;
+    throw err;
   }
   //return pointsScored;    optionally return this
 };

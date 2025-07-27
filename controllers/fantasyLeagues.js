@@ -38,6 +38,11 @@ exports.getLeague = async (req, res, next) => {
   try {
     const leagueId = req.params.leagueId;
     const league = await fantasyLeagueModel.findById(leagueId);
+    if (!league) {
+      res.status(404).json({
+        message: "league doesnt exist",
+      });
+    }
     const entries = await fantasyTeamEntriesModel
       .find({ leagueId: leagueId })
       .sort({ totalPoints: -1 }) // descending
@@ -45,7 +50,8 @@ exports.getLeague = async (req, res, next) => {
       .populate("userId", "name"); //replaces userId with some details
     if (entries.length === 0) {
       res.status(404).json({
-        message: "league doesnt exist",
+        message: "no entries yet",
+        leaderboard: [],
       });
     }
     const leaderboard = entries.map((entry, index) => ({
