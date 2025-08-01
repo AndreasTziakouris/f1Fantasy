@@ -3,17 +3,32 @@ const fantasyTeamsModel = require("../models/f1FantasyTeam.js");
 const f1DriverModel = require("../models/f1Driver.js");
 const f1TeamModel = require("../models/f1Team.js");
 
-const pointsCalculationService = require("../services/pointsCalculation.js");
+const populateFantasyTeams = async (userId, teamId) => {
+  const filter = teamId ? { userId: userId, _id: teamId } : { userId: userId };
+  const detailedFantasyTeams = await fantasyTeamsModel
+    .find(filter)
+    .populate({
+      path: "f1Drivers.driverId",
+      select: "name surname abbreviation imageUrl driverCost",
+    })
+    .populate({
+      path: "f1Teams.teamId",
+      select: "name fullName imageUrl teamCost",
+    })
+    .lean();
+  return detailedFantasyTeams;
+};
 
 exports.getAllFantasyTeams = async (req, res, next) => {
   try {
     const userId = req.userId;
-
-    const fantasyTeams = await fantasyTeamsModel.find({ userId: userId });
+    const fantasyTeams = await populateFantasyTeams(userId, null);
     if (fantasyTeams.length === 0) {
       return res.status(200).json({ message: "No teams found", teams: [] });
     }
-    res.status(200).json(fantasyTeams);
+    res
+      .status(200)
+      .json({ message: "Teams fetching succesfull", teams: fantasyTeams });
   } catch (err) {
     console.log(err);
     next(err);
@@ -24,15 +39,11 @@ exports.getFantasyTeam = async (req, res, next) => {
   try {
     const userId = req.userId;
     const fantasyTeamId = req.params.fantasyTeamId;
-
-    const fantasyTeam = await fantasyTeamsModel.findOne({
-      userId: userId,
-      _id: fantasyTeamId,
-    });
+    const fantasyTeam = await populateFantasyTeams(userId, fantasyTeamId);
     if (!fantasyTeam) {
       return res.status(404).json({ message: "Fantasy team not found" }); //should never happen
     }
-    res.status(200).json(fantasyTeam);
+    res.status(200).json({ message: "Fantasy Team Found!", team: fantasyTeam });
   } catch (err) {
     console.log(err);
     next(err);
