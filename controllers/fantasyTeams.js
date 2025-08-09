@@ -9,11 +9,9 @@ const populateFantasyTeams = async (userId, teamId) => {
     .find(filter)
     .populate({
       path: "f1Drivers.driverId",
-      select: "name surname abbreviation imageUrl driverCost",
     })
     .populate({
       path: "f1Teams.teamId",
-      select: "name fullName imageUrl teamCost",
     })
     .lean();
   return detailedFantasyTeams;
@@ -40,7 +38,7 @@ exports.getFantasyTeam = async (req, res, next) => {
     const userId = req.userId;
     const fantasyTeamId = req.params.fantasyTeamId;
     const fantasyTeam = await populateFantasyTeams(userId, fantasyTeamId);
-    if (!fantasyTeam) {
+    if (!fantasyTeam[0]) {
       return res.status(404).json({ message: "Fantasy team not found" }); //should never happen
     }
     res.status(200).json({ message: "Fantasy Team Found!", team: fantasyTeam });
