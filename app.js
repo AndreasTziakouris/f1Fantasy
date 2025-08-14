@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
-
+const path = require("path");
 const authRoutes = require("./routes/auth.js");
 const fantasyLeagueRoutes = require("./routes/fantasyLeagues.js");
 const fantasyTeamRoutes = require("./routes/fantasyTeams.js");
@@ -15,7 +15,8 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use("/images", express.static("public/images"));
+app.use("/images", express.static(path.join(__dirname, "public/images")));
+console.log(path.join(__dirname, "public/images/drivers/driverLeclerc.jpg"));
 
 app.use("/auth", authRoutes);
 app.use("/fantasyTeams", fantasyTeamRoutes);
