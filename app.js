@@ -16,7 +16,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/images", express.static(path.join(__dirname, "public/images")));
-console.log(path.join(__dirname, "public/images/drivers/driverLeclerc.jpg"));
 
 app.use("/auth", authRoutes);
 app.use("/fantasyTeams", fantasyTeamRoutes);
