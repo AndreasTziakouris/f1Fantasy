@@ -49,7 +49,7 @@ exports.getLeague = async (req, res, next) => {
       .populate("fantasyTeamId", "fantasyTeamName") //replaces teamId with name
       .populate("userId", "name"); //replaces userId with some details
     if (entries.length === 0) {
-      res.status(404).json({
+      res.status(200).json({
         message: "no entries yet",
         leaderboard: [],
       });

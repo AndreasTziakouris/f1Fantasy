@@ -10,14 +10,12 @@ const fantasyTeamEntriesModel = require("../models/f1FantasyTeamEntries");
 exports.simulateTeamPoints = async (team) => {
   //right now this is not called
   //gets called upon team creation, to simulate all grand prix until that point
-  console.log("here");
   for (let i = 1; i <= parseInt(process.env.CURRENT_ROUND_NUMBER); i++) {
     await exports.calculateRoundPoints(team, i);
   }
 };
 exports.calculateRoundPoints = async (team, roundNumber) => {
-  //gets called from all our different endpoints (example team initialization, after-race leaderboard updates, etc)
-  //returns an integer of points for this round, and updates race history in fantasy teams model
+  //updates race history in fantasy teams model
   try {
     const raceData = await raceDataModel.findOne({ roundNumber: roundNumber });
     let pointsScored = 0;
@@ -93,7 +91,7 @@ exports.updateAllLeagueEntriesForRound = async (req, res, next) => {
       .populate("fantasyTeamId", "createdAtGP raceHistory");
     console.log(entries);
     for (let entry of entries) {
-      if (roundNumber < entry.fantasyTeamId.createdAtGP) continue;
+      if (roundNumber < entry.fantasyTeamId.createdAtGP) continue;  //shouldn't happen
       const roundRecord = entry.fantasyTeamId.raceHistory.find(
         (r) => r.roundNumber === roundNumber
       );

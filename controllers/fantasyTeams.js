@@ -13,6 +13,10 @@ const populateFantasyTeams = async (userId, teamId) => {
     .populate({
       path: "f1Teams.teamId",
     })
+    .populate({
+      path: "raceHistory.raceId",
+      select: "circuitName",
+    })
     .lean();
   return detailedFantasyTeams;
 };
