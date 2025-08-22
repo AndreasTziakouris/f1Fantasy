@@ -37,12 +37,21 @@ exports.getAllLeagues = async (req, res, next) => {
 exports.getLeague = async (req, res, next) => {
   try {
     const leagueId = req.params.leagueId;
+    const userId = req.userId;
     const league = await fantasyLeagueModel.findById(leagueId);
     if (!league) {
       res.status(404).json({
         message: "league doesnt exist",
       });
     }
+    const userJoined = await fantasyTeamEntriesModel.exists({
+      userId: userId,
+      leagueId: league._id,
+    });
+    const enrichedLeague = {
+      ...league,
+      userJoined: userJoined,
+    };
     const entries = await fantasyTeamEntriesModel
       .find({ leagueId: leagueId })
       .sort({ totalPoints: -1 }) // descending
@@ -51,6 +60,7 @@ exports.getLeague = async (req, res, next) => {
     if (entries.length === 0) {
       res.status(200).json({
         message: "no entries yet",
+        league: enrichedLeague,
         leaderboard: [],
       });
     }
@@ -61,7 +71,7 @@ exports.getLeague = async (req, res, next) => {
       rankingNumber: index + 1,
     }));
     res.status(200).json({
-      league: league,
+      league: enrichedLeague,
       leaderboard: leaderboard,
     });
   } catch (err) {
