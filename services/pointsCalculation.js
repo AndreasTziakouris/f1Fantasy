@@ -91,7 +91,7 @@ exports.updateAllLeagueEntriesForRound = async (req, res, next) => {
       .populate("fantasyTeamId", "createdAtGP raceHistory");
     console.log(entries);
     for (let entry of entries) {
-      if (roundNumber < entry.fantasyTeamId.createdAtGP) continue;  //shouldn't happen
+      //if (roundNumber < entry.fantasyTeamId.createdAtGP) continue;  //shouldn't happen
       const roundRecord = entry.fantasyTeamId.raceHistory.find(
         (r) => r.roundNumber === roundNumber
       );
